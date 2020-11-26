@@ -19,6 +19,7 @@ else:
 # construct the request header with authorization
 headers = {"Authorization": f"Bearer {access_token}"}
 
+
 # get the Group UID associated with your bitly account
 
 group_res = requests.get(
@@ -42,10 +43,13 @@ shorten_res = requests.post("https://api-ssl.bitly.com/v4/shorten",json={"group_
 if shorten_res.status_code == 200:
     link = shorten_res.json().get("link")
     print("shortened link", link)
-
-qr_code_response=requests.get("https://api-ssl.bitly.com/v4/bitlinks/link/qr",headers=headers)
+bit=link[8:]
+print(bit)
+str="https://api-ssl.bitly.com/v4/bitlinks/{bitl}/qr".format(bitl=link[8:])
+print(str)
+qr_code_response=requests.get("https://api-ssl.bitly.com/v4/bitlinks/{bitl}/qr".format(bitl=link[8:]),headers=headers)
 if qr_code_response.status_code==200:
     qr_code=qr_code_response.json().get("qr_code")
     print(qr_code)
 else:
-    print(qr_code_response.status_code)
+    print(qr_code_response.json().get("description"))
