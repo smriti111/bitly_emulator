@@ -43,10 +43,17 @@ shorten_res = requests.post("https://api-ssl.bitly.com/v4/shorten",json={"group_
 if shorten_res.status_code == 200:
     link = shorten_res.json().get("link")
     print("shortened link", link)
-bit=link[8:]
-print(bit)
-str="https://api-ssl.bitly.com/v4/bitlinks/{bitl}/qr".format(bitl=link[8:])
-print(str)
+
+
+
+# bit=link[8:]
+# print(bit)
+# str="https://api-ssl.bitly.com/v4/bitlinks/{bitl}/qr".format(bitl=link[8:])
+# print(str)
+
+
+#generate a qr code for the link
+#NOTE--> CAN ONLY BE DONE IN UPGRADED VERSION OF YOUR BITLY ACCOUNT
 qr_code_response=requests.get("https://api-ssl.bitly.com/v4/bitlinks/{bitl}/qr".format(bitl=link[8:]),headers=headers)
 if qr_code_response.status_code==200:
     qr_code=qr_code_response.json().get("qr_code")
